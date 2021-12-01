@@ -27,12 +27,6 @@ func TestTodoRepository_Fetch(t *testing.T) {
 		AddRow(mockTodo[1].ID, mockTodo[1].Task_name)
 
 	query := "SELECT id, task_name FROM user_todo_lists"
-
-	// mock.ExpectQuery(query).WillReturnRows(rows)
-	// a := NewTodoRepository(db)
-	// list, err := a.Fetch(context.TODO())
-	// assert.NoError(t, err)
-	// assert.Len(t, list, 2)
 	type fields struct {
 		Conn *sql.DB
 	}
@@ -95,15 +89,11 @@ func TestTodoRepository_Fetch(t *testing.T) {
 func TestTodoRepository_GetByID(t *testing.T) {
 	mockTodo := []models.User_todo_list{
 		{
-			ID: 1, Task_name: "Belajar",
-		},
-		{
 			ID: 2, Task_name: "Sprint Test",
 		},
 	}
 	rows := sqlmock.NewRows([]string{"id", "task_name"}).
-		AddRow(mockTodo[0].ID, mockTodo[0].Task_name).
-		AddRow(mockTodo[1].ID, mockTodo[1].Task_name)
+		AddRow(mockTodo[0].ID, mockTodo[0].Task_name)
 
 	query := "SELECT id, task_name FROM user_todo_lists WHERE id = $1"
 
@@ -132,7 +122,7 @@ func TestTodoRepository_GetByID(t *testing.T) {
 			},
 			args:    test_args,
 			wantErr: false,
-			wantRes: mockTodo[1],
+			wantRes: mockTodo[0],
 		},
 	}
 	for _, tt := range tests {

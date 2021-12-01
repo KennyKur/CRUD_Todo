@@ -1,6 +1,5 @@
-package controllers
+package handler
 
-//controller atau handler
 import (
 	"net/http"
 	"strconv"
@@ -11,12 +10,12 @@ import (
 )
 
 type TodoHandler struct {
-	TodoEntity models.TodoEntity
+	TodoUsecase TodoUsecaseInterface
 }
 
-func NewTodoHandler(r *gin.RouterGroup, us models.TodoEntity) {
+func NewTodoHandler(r *gin.RouterGroup, us TodoUsecaseInterface) {
 	handler := &TodoHandler{
-		TodoEntity: us,
+		TodoUsecase: us,
 	}
 	r.GET("/Todo/", handler.FindTodos)
 	r.GET("/Todo/:id", handler.FindTodo)
@@ -25,13 +24,13 @@ func NewTodoHandler(r *gin.RouterGroup, us models.TodoEntity) {
 	r.DELETE("Todo/delete/:id", handler.DeleteTodo)
 }
 func (a *TodoHandler) FindTodos(c *gin.Context) {
-	todos, _ := a.TodoEntity.Fetch(c.Request.Context())
+	todos, _ := a.TodoUsecase.Fetch(c.Request.Context())
 	c.JSON(200, gin.H{"data": todos})
 }
 
 func (a *TodoHandler) FindTodo(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
-	todo, err := a.TodoEntity.GetByID(c.Request.Context(), int64(id))
+	todo, err := a.TodoUsecase.GetByID(c.Request.Context(), int64(id))
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -45,7 +44,7 @@ func (a *TodoHandler) CreateTodo(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	err := a.TodoEntity.Create(c.Request.Context(), input)
+	err := a.TodoUsecase.Create(c.Request.Context(), input)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -60,7 +59,7 @@ func (a *TodoHandler) UpdateTodo(c *gin.Context) {
 		return
 	}
 	id, _ := strconv.Atoi(c.Param("id"))
-	err := a.TodoEntity.Update(c.Request.Context(), input, int64(id))
+	err := a.TodoUsecase.Update(c.Request.Context(), input, int64(id))
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -71,7 +70,7 @@ func (a *TodoHandler) UpdateTodo(c *gin.Context) {
 
 func (a *TodoHandler) DeleteTodo(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
-	err := a.TodoEntity.Delete(c.Request.Context(), int64(id))
+	err := a.TodoUsecase.Delete(c.Request.Context(), int64(id))
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return

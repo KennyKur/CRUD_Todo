@@ -6,6 +6,7 @@ import (
 	"errors"
 
 	"github.com/KennyKur/CRUD_Todo/models"
+	"github.com/KennyKur/CRUD_Todo/usecase"
 )
 
 var list_not_todo = []string{
@@ -18,7 +19,7 @@ type TodoRepository struct {
 	Conn *sql.DB
 }
 
-func NewTodoRepository(Conn *sql.DB) models.TodoRepository {
+func NewTodoRepository(Conn *sql.DB) usecase.TodoRepositoryInterface {
 	return &TodoRepository{Conn}
 }
 
@@ -52,7 +53,7 @@ func (m TodoRepository) Create(ctx context.Context, todo models.User_todo_list) 
 	tx, err := m.Conn.Begin()
 	for _, b := range list_not_todo {
 		if b == todo.Task_name {
-			err := errors.New("task tidak bisa dimasukan")
+			err := errors.New("task tidak valid")
 			return err
 		}
 	}
@@ -78,7 +79,7 @@ func (m *TodoRepository) Update(ctx context.Context, todo models.User_todo_list,
 	tx, err := m.Conn.Begin()
 	for _, b := range list_not_todo {
 		if b == todo.Task_name {
-			err := errors.New("task tidak bisa dimasukan")
+			err := errors.New("task tidak valid")
 			return err
 		}
 	}

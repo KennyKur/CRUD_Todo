@@ -5,17 +5,16 @@ import (
 	"fmt"
 	"log"
 
-	_handler "github.com/KennyKur/CRUD_Todo/controllers"
-	"github.com/KennyKur/CRUD_Todo/entity"
-	"github.com/KennyKur/CRUD_Todo/models"
+	_handler "github.com/KennyKur/CRUD_Todo/handler"
 	"github.com/KennyKur/CRUD_Todo/repository"
+	"github.com/KennyKur/CRUD_Todo/usecase"
 
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
 )
 
 type TodoHandler struct {
-	TodoEntity models.TodoEntity
+	TodoUsecase _handler.TodoUsecaseInterface
 }
 
 func init() {
@@ -54,11 +53,9 @@ func main() {
 			log.Fatal(err)
 		}
 	}()
-	// models.ConnectDatabase()
-	// repoTodo := repository.NewTodoRepository(models.DB)
 	repoTodo := repository.NewTodoRepository(dbConn)
-	entityTodo := entity.NewTodoEntity(repoTodo)
+	usecaseTodo := usecase.NewTodoUsecase(repoTodo)
 	api := r.Group("/v1")
-	_handler.NewTodoHandler(api, entityTodo)
+	_handler.NewTodoHandler(api, usecaseTodo)
 	r.Run()
 }
