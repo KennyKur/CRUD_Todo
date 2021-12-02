@@ -8,6 +8,7 @@ import (
 	_handler "github.com/KennyKur/CRUD_Todo/handler"
 	"github.com/KennyKur/CRUD_Todo/repository"
 	"github.com/KennyKur/CRUD_Todo/usecase"
+	_ "github.com/lib/pq"
 
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"

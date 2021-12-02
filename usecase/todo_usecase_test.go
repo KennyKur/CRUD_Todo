@@ -92,7 +92,7 @@ func TestTodoUsecase_Fetch(t *testing.T) {
 func TestTodoUsecase_GetByID(t *testing.T) {
 	mockTodo := models.User_todo_list{ID: 4, Task_name: "daily"}
 	mockTodoErr := models.User_todo_list{ID: 0, Task_name: ""}
-	ctrl := gomock.New(t)
+	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
 	mockUC := NewMockTodoRepositoryInterface(ctrl)
@@ -253,7 +253,7 @@ func TestTodoUsecase_Update(t *testing.T) {
 		wantErr bool
 	}{
 		{
-			name: "berhasil mengubah data",
+			name: "success to update data",
 			fields: fields{
 				todoRepo: mockUC,
 			},
@@ -270,7 +270,7 @@ func TestTodoUsecase_Update(t *testing.T) {
 			wantErr: false,
 		},
 		{
-			name: "data tidak dapat ditemukan",
+			name: "failed to update data",
 			fields: fields{
 				todoRepo: mockUC,
 			},
@@ -282,7 +282,7 @@ func TestTodoUsecase_Update(t *testing.T) {
 			mockFN: func(a args) {
 				mockUC.EXPECT().
 					Update(a.c, a.todo, a.id).
-					Return(errors.New("data tidak ditemukan"))
+					Return(errors.New("data not found"))
 			},
 			wantErr: true,
 		},
@@ -320,7 +320,7 @@ func TestTodoUsecase_Delete(t *testing.T) {
 		wantErr bool
 	}{
 		{
-			name: "sukses menghapus data",
+			name: "success to delete data",
 			fields: fields{
 				todoRepo: mockUC,
 			},
@@ -336,7 +336,7 @@ func TestTodoUsecase_Delete(t *testing.T) {
 			wantErr: false,
 		},
 		{
-			name: "data gagal dihapus",
+			name: "failed to delete data",
 			fields: fields{
 				todoRepo: mockUC,
 			},
@@ -347,7 +347,7 @@ func TestTodoUsecase_Delete(t *testing.T) {
 			mockFn: func(a args) {
 				mockUC.EXPECT().
 					Delete(a.c, a.id).
-					Return(errors.New("Data tidak tersedia"))
+					Return(errors.New("Unexpected error"))
 			},
 			wantErr: true,
 		},
