@@ -158,7 +158,7 @@ func TestTodoRepository_Create(t *testing.T) {
 	db, mock, err := sqlmock.New()
 	data := models.User_todo_list{Task_name: "daily_harian"}
 	data2 := models.User_todo_list{Task_name: "tidur"}
-	query := "INSERT INTO user_todo_lists(task_name) VALUES ($1)"
+	query := "INSERT"
 	if err != nil {
 		t.Fatalf("an error '%s' was not expected when opening a stub database connection", err)
 	}
@@ -177,7 +177,7 @@ func TestTodoRepository_Create(t *testing.T) {
 		wantErr     bool
 	}{
 		{
-			name: "success creating data",
+			name: "success to add data",
 			fields: fields{
 				Conn: db,
 			},
@@ -187,8 +187,8 @@ func TestTodoRepository_Create(t *testing.T) {
 			},
 			mockClosure: func(mock sqlmock.Sqlmock, a args) {
 				mock.ExpectBegin()
-				mock.ExpectPrepare(regexp.QuoteMeta(query))
-				mock.ExpectExec(regexp.QuoteMeta(query)).
+				mock.ExpectPrepare(query)
+				mock.ExpectExec(query).
 					WithArgs(a.todo.Task_name).WillReturnResult(sqlmock.NewResult(1, 1))
 				mock.ExpectCommit()
 			},
@@ -205,8 +205,8 @@ func TestTodoRepository_Create(t *testing.T) {
 			},
 			mockClosure: func(mock sqlmock.Sqlmock, a args) {
 				mock.ExpectBegin()
-				mock.ExpectPrepare(regexp.QuoteMeta(query))
-				mock.ExpectExec(regexp.QuoteMeta(query)).
+				mock.ExpectPrepare(query)
+				mock.ExpectExec(query).
 					WithArgs(a.todo.Task_name).WillReturnResult(sqlmock.NewResult(1, 1))
 				mock.ExpectCommit()
 			},
@@ -223,8 +223,8 @@ func TestTodoRepository_Create(t *testing.T) {
 			},
 			mockClosure: func(mock sqlmock.Sqlmock, a args) {
 				mock.ExpectBegin()
-				mock.ExpectPrepare(regexp.QuoteMeta(query))
-				mock.ExpectExec(regexp.QuoteMeta(query)).
+				mock.ExpectPrepare(query)
+				mock.ExpectExec(query).
 					WithArgs(a.todo.Task_name).
 					WillReturnError(fmt.Errorf("some error"))
 			},
@@ -256,7 +256,7 @@ func TestTodoRepository_Update(t *testing.T) {
 	}
 	data := models.User_todo_list{Task_name: "halo_bandung"}
 	var id int64 = 2
-	query := "UPDATE user_todo_lists SET task_name = $1 WHERE id = $2"
+	query := "UPDATE"
 	type fields struct {
 		Conn *sql.DB
 	}
@@ -284,8 +284,8 @@ func TestTodoRepository_Update(t *testing.T) {
 			},
 			mockClosure: func(mock sqlmock.Sqlmock, a args) {
 				mock.ExpectBegin()
-				mock.ExpectPrepare(regexp.QuoteMeta(query))
-				mock.ExpectExec(regexp.QuoteMeta(query)).
+				mock.ExpectPrepare(query)
+				mock.ExpectExec(query).
 					WithArgs(a.todo.Task_name, a.id).WillReturnResult(sqlmock.NewResult(1, 1))
 				mock.ExpectCommit()
 			},
@@ -303,8 +303,8 @@ func TestTodoRepository_Update(t *testing.T) {
 			},
 			mockClosure: func(mock sqlmock.Sqlmock, a args) {
 				mock.ExpectBegin()
-				mock.ExpectPrepare(regexp.QuoteMeta(query))
-				mock.ExpectExec(regexp.QuoteMeta(query)).
+				mock.ExpectPrepare(query)
+				mock.ExpectExec(query).
 					WithArgs(a.todo.Task_name, a.id).WillReturnError(fmt.Errorf("some error"))
 				mock.ExpectRollback()
 			},
@@ -335,7 +335,7 @@ func TestTodoRepository_Delete(t *testing.T) {
 		t.Fatalf("an error '%s' was not expected when opening a stub database connection", err)
 	}
 	var id int64 = 2
-	query := "DELETE FROM user_todo_lists WHERE id = $1"
+	query := "DELETE"
 	type fields struct {
 		Conn *sql.DB
 	}
@@ -361,8 +361,8 @@ func TestTodoRepository_Delete(t *testing.T) {
 			},
 			mockClosure: func(mock sqlmock.Sqlmock, a args) {
 				mock.ExpectBegin()
-				mock.ExpectPrepare(regexp.QuoteMeta(query))
-				mock.ExpectExec(regexp.QuoteMeta(query)).
+				mock.ExpectPrepare(query)
+				mock.ExpectExec(query).
 					WithArgs(a.id).WillReturnResult(sqlmock.NewResult(1, 1))
 				mock.ExpectCommit()
 			},
@@ -379,8 +379,8 @@ func TestTodoRepository_Delete(t *testing.T) {
 			},
 			mockClosure: func(mock sqlmock.Sqlmock, a args) {
 				mock.ExpectBegin()
-				mock.ExpectPrepare(regexp.QuoteMeta(query))
-				mock.ExpectExec(regexp.QuoteMeta(query)).
+				mock.ExpectPrepare(query)
+				mock.ExpectExec(query).
 					WithArgs(a.id).WillReturnError(fmt.Errorf("some error"))
 			},
 			wantErr: true,

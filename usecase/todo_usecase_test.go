@@ -38,7 +38,7 @@ func TestTodoUsecase_Fetch(t *testing.T) {
 		wantErr bool
 	}{
 		{
-			name: "berhasil get data",
+			name: "success to  get data",
 			fields: fields{
 				todoRepo: mockUC,
 			},
@@ -54,7 +54,7 @@ func TestTodoUsecase_Fetch(t *testing.T) {
 			wantErr: false,
 		},
 		{
-			name: "success get data",
+			name: "failed to get data",
 			fields: fields{
 				todoRepo: mockUC,
 			},
@@ -112,7 +112,7 @@ func TestTodoUsecase_GetByID(t *testing.T) {
 		wantErr bool
 	}{
 		{
-			name: "berhasil mendapatkan data",
+			name: "success to get data",
 			fields: fields{
 				todoRepo: mockUC,
 			},
@@ -129,7 +129,7 @@ func TestTodoUsecase_GetByID(t *testing.T) {
 			wantErr: false,
 		},
 		{
-			name: "gagal mendapatkan data",
+			name: "failed to get data",
 			fields: fields{
 				todoRepo: mockUC,
 			},
@@ -186,7 +186,7 @@ func TestTodoUsecase_Create(t *testing.T) {
 		wantErr bool
 	}{
 		{
-			name: "sukses menambahkan data",
+			name: "success to add data",
 			fields: fields{
 				todoRepo: mockUC,
 			},
@@ -202,7 +202,7 @@ func TestTodoUsecase_Create(t *testing.T) {
 			wantErr: false,
 		},
 		{
-			name: "gagal menambahkan data",
+			name: "failed to add data",
 			fields: fields{
 				todoRepo: mockUC,
 			},

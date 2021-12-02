@@ -31,7 +31,7 @@ func TestTodoHandler_FindTodos(t *testing.T) {
 		mockFn func(args)
 	}{
 		{
-			name: "berhasil mengambil data",
+			name: "success to get data",
 			fields: fields{
 				TodoUsecase: mockUC,
 			},
@@ -77,7 +77,7 @@ func TestTodoHandler_FindTodo(t *testing.T) {
 		mockFn func(args)
 	}{
 		{
-			name: "sukses mengambil data",
+			name: "success to get data",
 			fields: fields{
 				TodoUsecase: mockUC,
 			},
@@ -124,7 +124,7 @@ func TestTodoHandler_CreateTodo(t *testing.T) {
 		mockFn func(args)
 	}{
 		{
-			name: "sukses menambahkan data",
+			name: "sucess to get data",
 			fields: fields{
 				TodoUsecase: mockUC,
 			},
@@ -170,7 +170,7 @@ func TestTodoHandler_UpdateTodo(t *testing.T) {
 		mockFn func(args)
 	}{
 		{
-			name: "sukses mengubah data",
+			name: "sucess to update data",
 			fields: fields{
 				TodoUsecase: mockUC,
 			},
@@ -216,7 +216,7 @@ func TestTodoHandler_DeleteTodo(t *testing.T) {
 		mockFn func(args)
 	}{
 		{
-			name: "sukses menghapus data",
+			name: "success to delete data",
 			fields: fields{
 				TodoUsecase: mockUC,
 			},
