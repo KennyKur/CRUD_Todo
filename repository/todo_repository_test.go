@@ -255,6 +255,7 @@ func TestTodoRepository_Update(t *testing.T) {
 		t.Fatalf("an error '%s' was not expected when opening a stub database connection", err)
 	}
 	data := models.User_todo_list{Task_name: "halo_bandung"}
+	data2 := models.User_todo_list{Task_name: "tidur"}
 	var id int64 = 2
 	query := "UPDATE"
 	type fields struct {
@@ -292,7 +293,26 @@ func TestTodoRepository_Update(t *testing.T) {
 			wantErr: false,
 		},
 		{
-			name: "failed update data",
+			name: "failed update data (invalid data)",
+			fields: fields{
+				Conn: db,
+			},
+			args: args{
+				ctx:  context.Background(),
+				todo: data2,
+				id:   id,
+			},
+			mockClosure: func(mock sqlmock.Sqlmock, a args) {
+				mock.ExpectBegin()
+				mock.ExpectPrepare(query)
+				mock.ExpectExec(query).
+					WithArgs(a.todo.Task_name, a.id).WillReturnError(fmt.Errorf("some error"))
+				mock.ExpectRollback()
+			},
+			wantErr: true,
+		},
+		{
+			name: "failed update data (sql error)",
 			fields: fields{
 				Conn: db,
 			},
